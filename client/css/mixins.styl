@@ -13,3 +13,13 @@ accent-text-glow()
     &:hover, &:active, &:focus-visible
         -webkit-text-stroke-color: $main-color
         text-shadow: 0 0 0.3em $main-color-glow, 0 0 0.8em $main-color
+
+// hover highlight of the post navigation buttons: accent tint in the light
+// theme, accent outline with an inner glow in the dark one
+accent-button-hover()
+    transition: background 0.2s linear, box-shadow 0.2s linear
+    &:not(.inactive):hover
+        background: $main-color-hover-background
+    .darktheme &:not(.inactive):hover
+        background: unset
+        box-shadow: inset 0 0 0 0.15em $main-color, inset 0 0 0.8em $main-color-glow

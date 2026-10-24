@@ -177,6 +177,35 @@ class PostMainView {
             null,
             true
         );
+
+        const toggleNode = document.querySelector(
+            "#content-holder .add-comment-toggle"
+        );
+        toggleNode.addEventListener("click", (e) => {
+            this.toggleCommentForm();
+            if (this._commentFormShown) {
+                commentFormContainer.querySelector("textarea").focus();
+            }
+        });
+    }
+
+    get _commentFormShown() {
+        const node = document.querySelector("#content-holder .post-comments");
+        return !!node && node.classList.contains("adding-comment");
+    }
+
+    // the new comment form is folded away behind the "Add comment" button
+    toggleCommentForm(show) {
+        const node = document.querySelector("#content-holder .post-comments");
+        const toggleNode = node.querySelector(".add-comment-toggle");
+        if (!toggleNode) {
+            return;
+        }
+        node.classList.toggle("adding-comment", show);
+        const shown = node.classList.contains("adding-comment");
+        toggleNode.setAttribute("aria-expanded", shown);
+        toggleNode.querySelector("i").className =
+            "fa " + (shown ? "fa-minus" : "fa-plus");
     }
 
     _installComments(comments) {

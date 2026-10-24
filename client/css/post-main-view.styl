@@ -75,6 +75,12 @@
         margin-top: 2em
         >h2:first-child
             margin-top: 0
+        .add-comment-toggle
+            margin-bottom: 1em
+            i
+                margin-right: 0.5em
+        &:not(.adding-comment) .comment-form-container
+            display: none
 
 .post-view.edit-mode
     grid-template-rows: auto auto 1fr
@@ -91,19 +97,18 @@
     .readonly-sidebar .details section, .readonly-sidebar .info section
         background: $focused-tab-background-color-darktheme
     .readonly-sidebar .details .zoom
-        .zoom-toggle
-            color: $text-color-darktheme
         .zoom-options
             background: $top-navigation-color-darktheme
             box-shadow: 0 -0.2em 0.6em rgba(0, 0, 0, 0.5)
             a
                 color: $inactive-link-color-darktheme
-                &:hover
-                    background: $active-tab-background-color-darktheme
+                &:not(.active):hover
+                    background: unset
+                    box-shadow: inset 0 0 0 0.15em $main-color, inset 0 0 0.8em $main-color-glow
                     color: $text-color-darktheme
                 &.active
                     background: $active-tab-background-color-darktheme
-                    color: $main-color
+                    color: $text-color-darktheme
     nav.buttons
         article
             background: $active-tab-background-color-darktheme
@@ -173,9 +178,9 @@
                 border: 0
                 border-radius: $ui-border-radius
                 background: none
-                color: $text-color
+                color: $main-color
                 font-size: 110%
-                accent-text-glow()
+                accent-button-hover()
                 i
                     margin: 0
             // opens upwards: the details row sits at the bottom of the
@@ -195,33 +200,45 @@
                 box-shadow: 0 -0.2em 0.6em rgba(0, 0, 0, 0.15)
                 li
                     margin: 0
+                // same look as the top navigation dropdown entries
                 a
                     display: block
-                    padding: 0.2em 1em
+                    padding: 0 1em
+                    line-height: 2.3em
                     border-radius: $ui-border-radius
                     color: $inactive-link-color
-                    &:hover
+                    transition: background 0.2s linear, box-shadow 0.2s linear
+                    &:not(.active):hover
                         background: $main-color-hover-background
                         color: $text-color
                     &.active
                         background: $active-tab-background-color
-                        color: $main-color
+                        color: $text-color
             &.opened .zoom-options
                 display: block
 
+        // the score and favorite controls are small buttons filling the tile
         .social
             display: flex
-            gap: 2em
-            .score-container
-                .downvote i
-                    text-align: right
+            align-self: stretch
+            gap: 1em
+            padding: 0
+            .score-container, .fav-container
+                display: flex
+                align-items: stretch
+            a
+                display: flex
+                align-items: center
+                padding: 0 0.5em
+                border-radius: $ui-border-radius
+                accent-button-hover()
             i
-                text-align: left
                 margin: 0
             .value
-                text-align: center
-                display: inline-block
-                width: 2em
+                display: flex
+                align-items: center
+                justify-content: center
+                min-width: 1.5em
 
     .relations
         margin-top: 1em

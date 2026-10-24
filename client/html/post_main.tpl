@@ -52,8 +52,12 @@
     </aside>
 
     <div class='post-comments'>
+        <% if (ctx.canCreateComments || ctx.canListComments) { %>
+            <h2>Comments</h2>
+        <% } %>
+
         <% if (ctx.canCreateComments) { %>
-            <h2>Add comment</h2>
+            <button type='button' class='add-comment-toggle' aria-expanded='false'><i class='fa fa-plus'></i>Add comment</button>
             <div class='comment-form-container'></div>
         <% } %>
 

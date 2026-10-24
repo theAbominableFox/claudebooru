@@ -230,6 +230,7 @@ class PostMainController extends BasePostController {
                 this._post.comments.add(comment);
                 this._view.commentControl.exitEditMode();
                 this._view.commentControl.enableForm();
+                this._view.toggleCommentForm(false);
                 misc.disableExitConfirmation();
             },
             (error) => {
