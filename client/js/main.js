@@ -42,6 +42,9 @@ const pools = require("./pools.js");
 const api = require("./api.js");
 const theme = require("./util/theme.js");
 
+// before the config request, so the page never flashes the wrong theme
+theme.apply();
+
 Promise.resolve()
     .then(() => api.fetchConfig())
     .then(
@@ -95,7 +98,6 @@ Promise.resolve()
             window.alert("Could not fetch basic configuration from server");
         }
     )
-    .then(() => theme.apply())
     .then(() => api.loginFromCookies())
     .then(
         () => {
