@@ -1,4 +1,6 @@
 <div class='content-wrapper transparent post-view'>
+    <div class='post-container'></div>
+
     <aside class='sidebar'>
         <nav class='buttons'>
             <article class='previous-post'>
@@ -49,18 +51,14 @@
         <div class='sidebar-container'></div>
     </aside>
 
-    <div class='content'>
-        <div class='post-container'></div>
+    <div class='post-comments'>
+        <% if (ctx.canCreateComments) { %>
+            <h2>Add comment</h2>
+            <div class='comment-form-container'></div>
+        <% } %>
 
-        <div class='after-mobile-controls'>
-            <% if (ctx.canCreateComments) { %>
-                <h2>Add comment</h2>
-                <div class='comment-form-container'></div>
-            <% } %>
-
-            <% if (ctx.canListComments) { %>
-                <div class='comments-container'></div>
-            <% } %>
-        </div>
+        <% if (ctx.canListComments) { %>
+            <div class='comments-container'></div>
+        <% } %>
     </div>
 </div>

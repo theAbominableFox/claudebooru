@@ -1,78 +1,96 @@
 @import colors
 
+// Post on top, then buttons + details in one row, then relations/tags
+// (or the edit form) on the left with comments on the right. The wrappers
+// are display: contents so their children land directly in the grid.
 .post-view
     width: 100%
-    display: flex !important
-    flex-direction: row
+    display: grid !important
+    grid-template-columns: 21em minmax(0, 1fr)
+    grid-template-areas: "post post" "buttons details" "side comments"
+    align-items: start
+    column-gap: 2em
+
+    >.sidebar, >.sidebar>.sidebar-container, .readonly-sidebar
+        display: contents
 
     >.sidebar
-        margin-right: 1em
-        min-width: 21em
-        max-width: 21em
         line-height: 160%
 
         a:active
             border: 0
             outline: 0
 
-    >.sidebar>nav.buttons, >.content nav.buttons
-        margin-top: 0
+    .post-container
+        grid-area: post
+        margin-bottom: 0.6em
+
+        .post-content
+            margin: 0
+
+    // stretched to the row's height, so the details beside it and the
+    // icons inside it share one vertical center
+    nav.buttons
+        grid-area: buttons
+        align-self: stretch
+        margin: 0
         display: flex
         flex-wrap: wrap
+        gap: 0.2em
         article
-            flex: 1 0 33%
+            flex: 1 0 30%
+            display: flex
+            background: $active-tab-background-color
             a
-                display: inline-block
+                display: flex
+                align-items: center
+                justify-content: center
                 width: 100%
                 padding: 0.3em 0
-                text-align: center
-                vertical-align: middle
                 transition: background 0.2s linear, box-shadow 0.2s linear
                 &:not(.inactive):hover
                     background: lighten($main-color, 90%)
             i
                 font-size: 140%
             text-align: center
-        @media (max-width: 800px)
-            margin-top: 0.6em
-            margin-bottom: 0.6em
 
-    >.content
-        width: 100%
+    .readonly-sidebar>.details
+        grid-area: details
+        align-self: center
 
-    .post-container
-        margin-bottom: 0.6em
+    .readonly-sidebar>.taxonomy, .edit-sidebar
+        grid-area: side
+        min-width: 0
 
-        .post-content
-            margin: 0
-
-    .after-mobile-controls
-        width: 100%
+    >.post-comments
+        grid-area: comments
+        min-width: 0
+        margin-top: 1em
 
 .darktheme .post-view
-    >.sidebar, >.content
-        nav.buttons
-            article
-                a:not(.inactive):hover
-                    background: unset
-                    box-shadow: inset 0 0 0 0.3em $main-color
+    nav.buttons
+        article
+            background: $active-tab-background-color-darktheme
+            a:not(.inactive):hover
+                background: unset
+                box-shadow: inset 0 0 0 0.3em $main-color
 
 @media (max-width: 800px)
     .post-view
-        flex-wrap: wrap
-        >.after-mobile-controls
-            order: 3
-        >.sidebar
-            order: 2
-            min-width: 100%
-            max-width: 0
-            margin-right: 0
-        >.content
-            order: 1
+        grid-template-columns: minmax(0, 1fr)
+        grid-template-areas: "post" "buttons" "details" "side" "comments"
+
+        nav.buttons
+            margin-bottom: 0.6em
 
 
 .post-view .readonly-sidebar
     .details
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        gap: 0.3em 2em
+
         i
             margin-right: 0.6em
             display: inline-block
@@ -93,17 +111,15 @@
                 margin: -0.1em 0.6em 0 0
 
         .zoom
-            margin-top: 1em
             a
                 display: inline-block
             .active
                 text-decoration: underline
 
         .social
-            margin-top: 1em
+            display: flex
+            gap: 2em
             .score-container
-                float: left
-                margin-right: 3em
                 .downvote i
                     text-align: right
             i
@@ -115,7 +131,7 @@
                 width: 2em
 
     .relations
-        margin-top: 2em
+        margin-top: 1em
         h1
             margin-bottom: 0.5em
         .thumbnail
@@ -127,6 +143,8 @@
             display: inline-block
 
     .tags
+        margin-top: 1em
+    .relations + .tags
         margin-top: 2em
         h1
             margin-bottom: 0.5em

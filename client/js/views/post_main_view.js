@@ -21,7 +21,6 @@ class PostMainView {
 
         const sourceNode = template(ctx);
         const postContainerNode = sourceNode.querySelector(".post-container");
-        const sidebarNode = sourceNode.querySelector(".sidebar");
         views.replaceContent(this._hostNode, sourceNode);
         views.syncScrollPosition();
 
@@ -32,15 +31,17 @@ class PostMainView {
             postContainerNode,
             ctx.post,
             () => {
-                const margin = sidebarNode.getBoundingClientRect().left;
+                const postContainerRect =
+                    postContainerNode.getBoundingClientRect();
+                const margin = postContainerRect.left;
 
                 return [
-                    window.innerWidth -
-                        postContainerNode.getBoundingClientRect().left -
-                        margin,
+                    window.innerWidth - postContainerRect.left - margin,
                     iosCorrectedInnerHeight() -
                         topNavigationNode.getBoundingClientRect().height -
-                        margin * 2,
+                        margin * 2 -
+                        (this._getButtonRowBottom() -
+                            postContainerRect.bottom),
                 ];
             }
         );
@@ -55,6 +56,8 @@ class PostMainView {
         }
 
         this._installSidebar(ctx);
+        // the details row only exists now, so fit the post again
+        this._postContentControl.refit();
         this._installCommentForm();
         this._installComments(ctx.post.comments);
 
@@ -114,6 +117,25 @@ class PostMainView {
                 }
             }
         );
+    }
+
+    // Bottom of the row below the post that should stay on screen: the
+    // buttons, plus the details when they sit beside them (wide screens).
+    _getButtonRowBottom() {
+        const buttonsRect = this._hostNode
+            .querySelector(".post-view nav.buttons")
+            .getBoundingClientRect();
+        const detailsNode = this._hostNode.querySelector(
+            ".readonly-sidebar > .details"
+        );
+        let bottom = buttonsRect.bottom;
+        if (detailsNode) {
+            const detailsRect = detailsNode.getBoundingClientRect();
+            if (detailsRect.top < buttonsRect.bottom) {
+                bottom = Math.max(bottom, detailsRect.bottom);
+            }
+        }
+        return bottom;
     }
 
     _installSidebar(ctx) {
