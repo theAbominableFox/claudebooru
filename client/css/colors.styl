@@ -1,4 +1,13 @@
-$main-color = #24AADD
+// The accent is picked at runtime (theme menu), so it's a CSS variable;
+// --accent-color is set on :root in core-general and by js/util/theme.js.
+// Stylus color functions can't operate on it, so use the color-mix()
+// helpers below instead of lighten()/rgba()/mix().
+$default-main-color = #24AADD
+$main-color = var(--accent-color)
+$main-color-hover-background = unquote('color-mix(in srgb, var(--accent-color) 10%, white)')
+$main-color-glow = unquote('color-mix(in srgb, var(--accent-color) 45%, transparent)')
+// corner rounding shared by buttons, inputs and other controls
+$ui-border-radius = 0.25em
 $window-color = white
 $window-color-darktheme = #1a1a1a
 $top-navigation-color = #F5F5F5

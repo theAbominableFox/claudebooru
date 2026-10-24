@@ -2,6 +2,7 @@
 
 const api = require("../api.js");
 const topNavigation = require("../models/top_navigation.js");
+const theme = require("../util/theme.js");
 const TopNavigationView = require("../views/top_navigation_view.js");
 
 class TopNavigationController {
@@ -71,7 +72,12 @@ class TopNavigationController {
         this._updateNavigationFromPrivileges();
         this._topNavigationView.render({
             items: topNavigation.getAll(),
+            // grouped into a single dropdown on the right
+            menuKeys: ["account", "register", "login", "logout", "help"],
             name: api.getName(),
+            userName: api.isLoggedIn() ? api.userName : null,
+            avatarUrl: api.user ? api.user.avatarUrl : null,
+            accentColors: theme.accentColors,
         });
         this._topNavigationView.activate(
             topNavigation.activeItem ? topNavigation.activeItem.key : ""

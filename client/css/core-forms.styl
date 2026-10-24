@@ -75,6 +75,9 @@ input[type=radio], input[type=checkbox]
 .radio:before
     border-radius: 100%
 
+.checkbox:before
+    border-radius: $ui-border-radius
+
 .radio:before, .checkbox:before
     transition: border-color 0.1s linear
     position: absolute
@@ -152,6 +155,7 @@ input[type=time]
     font-size: 100%
     padding: 0.2em 0.3em
     box-sizing: border-box
+    border-radius: $ui-border-radius
     border: 2px solid $input-enabled-border-color
     background: $input-enabled-background-color
     color: $input-enabled-text-color
@@ -199,6 +203,7 @@ input[type=number]
     text-overflow: ellipsis
     width: 100%
     box-sizing: border-box
+    border-radius: $ui-border-radius
     border: 2px solid $input-enabled-border-color
     background: $input-enabled-background-color
     color: $input-enabled-text-color
@@ -284,7 +289,7 @@ input[type=submit]
     cursor: pointer
     font-size: 100%
     padding: 0.2em 0.7em
-    border-radius: 0
+    border-radius: $ui-border-radius
     border: 2px solid $button-enabled-background-color
     background: $button-enabled-background-color
     color: $button-enabled-text-color
@@ -323,6 +328,7 @@ input::-moz-focus-inner
         display: block
         background: $window-color
         border: 3px dashed #eee
+        border-radius: $ui-border-radius
         padding: 0.3em 0.5em
         line-height: 140%
         text-align: center
@@ -358,6 +364,8 @@ input[type=file]:focus+.file-dropper,
     z-index: 10
     background: $window-color
     border: 2px solid $main-color
+    border-radius: $ui-border-radius
+    overflow: hidden
     display: none
     font-size: 0.95em
     ul

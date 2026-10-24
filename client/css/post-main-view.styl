@@ -1,8 +1,9 @@
 @import colors
 
 // Post on top, then buttons + details in one row, then relations/tags
-// (or the edit form) on the left with comments on the right. The wrappers
-// are display: contents so their children land directly in the grid.
+// on the left with comments on the right. In edit mode the buttons and the
+// edit form sit in a column left of the post instead. The wrappers are
+// display: contents so their children land directly in the grid.
 .post-view
     width: 100%
     display: grid !important
@@ -40,6 +41,7 @@
         article
             flex: 1 0 30%
             display: flex
+            border-radius: $ui-border-radius
             background: $active-tab-background-color
             a
                 display: flex
@@ -47,9 +49,10 @@
                 justify-content: center
                 width: 100%
                 padding: 0.3em 0
+                border-radius: $ui-border-radius
                 transition: background 0.2s linear, box-shadow 0.2s linear
                 &:not(.inactive):hover
-                    background: lighten($main-color, 90%)
+                    background: $main-color-hover-background
             i
                 font-size: 140%
             text-align: center
@@ -67,17 +70,31 @@
         min-width: 0
         margin-top: 1em
 
+.post-view.edit-mode
+    grid-template-rows: auto auto 1fr
+    grid-template-areas: "buttons post" "side post" "side comments"
+
+    >.post-comments
+        margin-top: 0
+
+    nav.buttons
+        align-self: start
+        margin-bottom: 1em
+
 .darktheme .post-view
+    .readonly-sidebar .details section
+        background: $focused-tab-background-color-darktheme
     nav.buttons
         article
             background: $active-tab-background-color-darktheme
             a:not(.inactive):hover
                 background: unset
-                box-shadow: inset 0 0 0 0.3em $main-color
+                box-shadow: inset 0 0 0 0.15em $main-color, inset 0 0 0.8em $main-color-glow
 
 @media (max-width: 800px)
-    .post-view
+    .post-view, .post-view.edit-mode
         grid-template-columns: minmax(0, 1fr)
+        grid-template-rows: none
         grid-template-areas: "post" "buttons" "details" "side" "comments"
 
         nav.buttons
@@ -89,7 +106,12 @@
         display: flex
         flex-wrap: wrap
         align-items: center
-        gap: 0.3em 2em
+        gap: 0.5em
+
+        section
+            padding: 0.3em 0.8em
+            border-radius: $ui-border-radius
+            background: $focused-tab-background-color
 
         i
             margin-right: 0.6em

@@ -40,7 +40,7 @@ router.enter(null, (ctx, next) => {
 const tags = require("./tags.js");
 const pools = require("./pools.js");
 const api = require("./api.js");
-const settings = require("./models/settings.js");
+const theme = require("./util/theme.js");
 
 Promise.resolve()
     .then(() => api.fetchConfig())
@@ -95,11 +95,7 @@ Promise.resolve()
             window.alert("Could not fetch basic configuration from server");
         }
     )
-    .then(() => {
-        if (settings.get().darkTheme) {
-            document.body.classList.add("darktheme");
-        }
-    })
+    .then(() => theme.apply())
     .then(() => api.loginFromCookies())
     .then(
         () => {

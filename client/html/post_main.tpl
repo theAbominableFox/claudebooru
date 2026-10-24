@@ -1,4 +1,4 @@
-<div class='content-wrapper transparent post-view'>
+<div class='content-wrapper transparent post-view<% if (ctx.editMode) { %> edit-mode<% } %>'>
     <div class='post-container'></div>
 
     <aside class='sidebar'>

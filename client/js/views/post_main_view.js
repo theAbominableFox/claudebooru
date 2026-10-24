@@ -33,15 +33,16 @@ class PostMainView {
             () => {
                 const postContainerRect =
                     postContainerNode.getBoundingClientRect();
-                const margin = postContainerRect.left;
+                const margin = postContainerNode
+                    .closest(".post-view")
+                    .getBoundingClientRect().left;
 
                 return [
                     window.innerWidth - postContainerRect.left - margin,
                     iosCorrectedInnerHeight() -
                         topNavigationNode.getBoundingClientRect().height -
                         margin * 2 -
-                        (this._getButtonRowBottom() -
-                            postContainerRect.bottom),
+                        this._getButtonRowHeight(postContainerRect),
                 ];
             }
         );
@@ -119,12 +120,16 @@ class PostMainView {
         );
     }
 
-    // Bottom of the row below the post that should stay on screen: the
+    // Height of the row below the post that should stay on screen: the
     // buttons, plus the details when they sit beside them (wide screens).
-    _getButtonRowBottom() {
+    // Zero when the buttons sit beside the post (edit mode).
+    _getButtonRowHeight(postContainerRect) {
         const buttonsRect = this._hostNode
             .querySelector(".post-view nav.buttons")
             .getBoundingClientRect();
+        if (buttonsRect.right <= postContainerRect.left) {
+            return 0;
+        }
         const detailsNode = this._hostNode.querySelector(
             ".readonly-sidebar > .details"
         );
@@ -135,7 +140,7 @@ class PostMainView {
                 bottom = Math.max(bottom, detailsRect.bottom);
             }
         }
-        return bottom;
+        return bottom - postContainerRect.bottom;
     }
 
     _installSidebar(ctx) {
