@@ -1,9 +1,12 @@
 @import colors
+@import mixins
 
 .pager
     nav
         .disabled
             opacity: .5
+        a.prev:not(.disabled), a.next:not(.disabled)
+            accent-text-glow()
 
     .page
         position: relative

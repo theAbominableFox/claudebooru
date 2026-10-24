@@ -72,8 +72,11 @@ class TopNavigationController {
         this._updateNavigationFromPrivileges();
         this._topNavigationView.render({
             items: topNavigation.getAll(),
-            // grouped into a single dropdown on the right
-            menuKeys: ["account", "register", "login", "logout", "help"],
+            // items grouped into dropdowns on the right, in display order
+            menus: {
+                account: ["account", "register", "login", "logout", "help"],
+                settings: ["settings", "comments", "tags", "pools", "users"],
+            },
             name: api.getName(),
             userName: api.isLoggedIn() ? api.userName : null,
             avatarUrl: api.user ? api.user.avatarUrl : null,

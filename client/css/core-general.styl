@@ -82,6 +82,8 @@ a
 
 a.append, span.append
     margin-left: 1em
+a.append
+    accent-text-glow()
 form .fa-question-circle-o
     font-size: 110%
     vertical-align: middle
@@ -172,6 +174,12 @@ nav
     &#top-navigation
         background: $top-navigation-color
         margin: 0
+        // with the items' 1em padding, puts the first and last item's
+        // content on the same 1.5em gutter as #content-holder
+        >ul
+            padding: 0 0.5em
+            @media (max-width: 1000px)
+                padding: 0
         ul
             display: block
             text-align: right
@@ -179,7 +187,7 @@ nav
                 display: inline-block
                 float: left
                 a
-                    padding: 0 1.5em
+                    padding: 0 1em
             #mobile-navigation-toggle
                 display: none
                 width: 100%
@@ -211,9 +219,12 @@ nav
                 &.opened
                     li
                         display: block
-        ul li.menu,
-        ul li[data-name=settings]
+        ul li.menu
             float: none
+        li.settings-menu .menu-toggle .fa-cog
+            margin-right: 0
+        .nav-icon
+            margin-right: 0.5em
         li.theme-menu
             .menu-toggle .fa-adjust
                 margin-right: 0
@@ -221,6 +232,9 @@ nav
                 width: 13em
                 padding: 0.6em 0.8em
                 line-height: normal
+                // same 1em inset as the other items in the mobile list
+                @media (max-width: 1000px)
+                    padding: 0.3em 1em 0.8em
                 h3
                     margin: 0 0 0.4em 0
                     font-size: 0.85em
@@ -286,7 +300,7 @@ nav
         li.menu
             position: relative
             .menu-toggle
-                padding: 0 1.5em
+                padding: 0 1em
                 line-height: 2.3em
                 font-family: inherit
                 font-size: inherit
@@ -342,6 +356,7 @@ nav
                 .menu-items
                     display: block
                     position: static
+                    padding: 0
                     box-shadow: none
                     background: none
         .access-key

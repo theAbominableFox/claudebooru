@@ -1,11 +1,27 @@
-<% const menuItems = ctx.items.filter((item) => item.available && ctx.menuKeys.includes(item.key)); %><!--
+<% const menuKeys = [].concat(...Object.values(ctx.menus)); %><!--
+--><% const getMenuItems = (name) => ctx.menus[name].map((key) => ctx.items.find((item) => item.key === key)).filter((item) => item && item.available); %><!--
 --><% const printItem = (item) => { %><!--
     --><li data-name='<%- item.key %>'><!--
         --><a href='<%- item.url %>' accesskey='<%- item.accessKey %>'><!--
             --><% if (item.imageUrl) { print(ctx.makeThumbnail(item.imageUrl)); } %><!--
+            --><% if (item.icon) { %><i class='fa fa-<%- item.icon %> nav-icon'></i><% } %><!--
             --><span class='text'><%= ctx.makeAccessKey(item.title, item.accessKey) %></span><!--
         --></a><!--
     --></li><!--
+--><% }; %><!--
+--><% const printMenu = (name, printToggleContent) => { %><!--
+    --><% const menuItems = getMenuItems(name); %><!--
+    --><% if (menuItems.length) { %><!--
+        --><li class='menu <%- name %>-menu'><!--
+            --><button class='menu-toggle' aria-haspopup='true' aria-expanded='false'><!--
+                --><% printToggleContent(); %><!--
+                --><i class='fa fa-caret-down'></i><!--
+            --></button><!--
+            --><ul class='menu-items'><!--
+                --><% for (let menuItem of menuItems) { printItem(menuItem); } %><!--
+            --></ul><!--
+        --></li><!--
+    --><% } %><!--
 --><% }; %><!--
 --><nav id='top-navigation' class='buttons'><!--
     --><ul><!--
@@ -14,50 +30,44 @@
             --><span class="toggle-icon"><i class="fa fa-bars"></i></span><!--
         --></button><!--
         --><% for (let item of ctx.items) { %><!--
-            --><% if (item.key === 'settings') { %><!--
-                --><li class='menu theme-menu'><!--
-                    --><button class='menu-toggle' aria-haspopup='true' aria-expanded='false' title='Theme'><!--
-                        --><i class='fa fa-adjust'></i><!--
-                        --><i class='fa fa-caret-down'></i><!--
-                    --></button><!--
-                    --><div class='menu-items theme-options'><!--
-                        --><h3>Theme</h3><!--
-                        --><div class='theme-modes'><!--
-                            --><button type='button' class='theme-mode' data-dark-theme='0'><i class='fa fa-sun-o'></i>Light</button><!--
-                            --><button type='button' class='theme-mode' data-dark-theme='1'><i class='fa fa-moon-o'></i>Dark</button><!--
-                        --></div><!--
-                        --><h3>Accent color</h3><!--
-                        --><div class='accent-colors'><!--
-                            --><% for (let color of ctx.accentColors) { %><!--
-                                --><button type='button' class='accent-color' data-color='<%- color.value %>' title='<%- color.name %>' aria-label='<%- color.name %>' style='background: <%- color.value %>'></button><!--
-                            --><% } %><!--
-                            --><label class='accent-custom' title='Custom color'><!--
-                                --><i class='fa fa-eyedropper'></i><!--
-                                --><input type='color' aria-label='Custom accent color'/><!--
-                            --></label><!--
-                        --></div><!--
-                    --></div><!--
-                --></li><!--
-            --><% } %><!--
-            --><% if (item.available && !ctx.menuKeys.includes(item.key)) { %><!--
+            --><% if (item.available && !menuKeys.includes(item.key)) { %><!--
                 --><% printItem(item); %><!--
-            --><% } else if (item === menuItems[0]) { %><!--
-                --><li class='menu'><!--
-                    --><button class='menu-toggle' aria-haspopup='true' aria-expanded='false'><!--
-                        --><% if (ctx.userName) { %><!--
-                            --><%= ctx.makeThumbnail(ctx.avatarUrl) %><!--
-                            --><span class='text'><%- ctx.userName %></span><!--
-                        --><% } else { %><!--
-                            --><i class='fa fa-user'></i><!--
-                            --><span class='text'>Menu</span><!--
-                        --><% } %><!--
-                        --><i class='fa fa-caret-down'></i><!--
-                    --></button><!--
-                    --><ul class='menu-items'><!--
-                        --><% for (let menuItem of menuItems) { printItem(menuItem); } %><!--
-                    --></ul><!--
-                --></li><!--
             --><% } %><!--
         --><% } %><!--
+        --><% printMenu('account', () => { %><!--
+            --><% if (ctx.userName) { %><!--
+                --><%= ctx.makeThumbnail(ctx.avatarUrl) %><!--
+                --><span class='text'><%- ctx.userName %></span><!--
+            --><% } else { %><!--
+                --><i class='fa fa-user'></i><!--
+                --><span class='text'>Menu</span><!--
+            --><% } %><!--
+        --><% }); %><!--
+        --><li class='menu theme-menu'><!--
+            --><button class='menu-toggle' aria-haspopup='true' aria-expanded='false' title='Theme'><!--
+                --><i class='fa fa-adjust'></i><!--
+                --><i class='fa fa-caret-down'></i><!--
+            --></button><!--
+            --><div class='menu-items theme-options'><!--
+                --><h3>Theme</h3><!--
+                --><div class='theme-modes'><!--
+                    --><button type='button' class='theme-mode' data-dark-theme='0'><i class='fa fa-sun-o'></i>Light</button><!--
+                    --><button type='button' class='theme-mode' data-dark-theme='1'><i class='fa fa-moon-o'></i>Dark</button><!--
+                --></div><!--
+                --><h3>Accent color</h3><!--
+                --><div class='accent-colors'><!--
+                    --><% for (let color of ctx.accentColors) { %><!--
+                        --><button type='button' class='accent-color' data-color='<%- color.value %>' title='<%- color.name %>' aria-label='<%- color.name %>' style='background: <%- color.value %>'></button><!--
+                    --><% } %><!--
+                    --><label class='accent-custom' title='Custom color'><!--
+                        --><i class='fa fa-eyedropper'></i><!--
+                        --><input type='color' aria-label='Custom accent color'/><!--
+                    --></label><!--
+                --></div><!--
+            --></div><!--
+        --></li><!--
+        --><% printMenu('settings', () => { %><!--
+            --><i class='fa fa-cog'></i><!--
+        --><% }); %><!--
     --></ul><!--
 --></nav>

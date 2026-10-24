@@ -10,6 +10,7 @@ class TopNavigationItem {
         this.url = url;
         this.available = available === undefined ? true : available;
         this.imageUrl = imageUrl === undefined ? null : imageUrl;
+        this.icon = null; // font-awesome name, e.g. "home" for fa-home
         this.key = null;
     }
 }
@@ -90,10 +91,10 @@ function _makeTopNavigation() {
     ret.add("login", new TopNavigationItem("L", "Log in", "login"));
     ret.add("logout", new TopNavigationItem("O", "Logout", "logout"));
     ret.add("help", new TopNavigationItem("E", "Help", "help"));
-    ret.add(
-        "settings",
-        new TopNavigationItem(null, "<i class='fa fa-cog'></i>", "settings")
-    );
+    ret.add("settings", new TopNavigationItem(null, "Settings", "settings"));
+    ret.get("home").icon = "home";
+    ret.get("posts").icon = "th";
+    ret.get("upload").icon = "upload";
     return ret;
 }
 
