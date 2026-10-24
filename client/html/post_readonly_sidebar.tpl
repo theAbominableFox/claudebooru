@@ -68,52 +68,54 @@
         </section>
     </article>
 
-    <% if (ctx.post.relations.length) { %>
-        <nav class='relations'>
-            <h1>Relations (<%- ctx.post.relations.length %>)</h1>
-            <ul><!--
-                --><% for (let post of ctx.post.relations) { %><!--
-                    --><li><!--
-                        --><a href='<%= ctx.getPostUrl(post.id, ctx.parameters) %>'><!--
-                            --><%= ctx.makeThumbnail(post.thumbnailUrl) %><!--
-                        --></a><!--
-                    --></li><!--
-                --><% } %><!--
-            --></ul>
-        </nav>
-    <% } %>
-
-    <nav class='tags'>
-        <h1>Tags (<%- ctx.post.tags.length %>)</h1>
-        <% if (ctx.post.tags.length) { %>
-            <ul class='compact-tags'><!--
-                --><% for (let tag of ctx.post.tags) { %><!--
-                    --><li><!--
-                        --><% if (ctx.canViewTags) { %><!--
-                        --><a href='<%- ctx.formatClientLink('tag', tag.names[0]) %>' class='<%= ctx.makeCssName(tag.category, 'tag') %>'><!--
-                            --><i class='fa fa-tag'></i><!--
-                        --><% } %><!--
-                        --><% if (ctx.canViewTags) { %><!--
+    <div class='taxonomy'>
+        <% if (ctx.post.relations.length) { %>
+            <nav class='relations'>
+                <h1>Relations (<%- ctx.post.relations.length %>)</h1>
+                <ul><!--
+                    --><% for (let post of ctx.post.relations) { %><!--
+                        --><li><!--
+                            --><a href='<%= ctx.getPostUrl(post.id, ctx.parameters) %>'><!--
+                                --><%= ctx.makeThumbnail(post.thumbnailUrl) %><!--
                             --></a><!--
-                        --><% } %><!--
-                        --><% if (ctx.canListPosts) { %><!--
-                            --><a href='<%- ctx.formatClientLink('posts', {query: ctx.escapeTagName(tag.names[0])}) %>' class='<%= ctx.makeCssName(tag.category, 'tag') %>'><!--
-                        --><% } %><!--
-                            --><%- ctx.getPrettyName(tag.names[0]) %><!--
-                        --><% if (ctx.canListPosts) { %><!--
-                            --></a><!--
-                        --><% } %>&#32;<!--
-                        --><span class='tag-usages' data-pseudo-content='<%- tag.postCount %>'></span><!--
-                    --></li><!--
-                --><% } %><!--
-            --></ul>
-        <% } else { %>
-            <p>
-                No tags yet!
-                <% if (ctx.canEditPosts) { %>
-                    <a href='<%= ctx.getPostEditUrl(ctx.post.id, ctx.parameters) %>'>Add some.</a>
-                <% } %>
-            </p>
+                        --></li><!--
+                    --><% } %><!--
+                --></ul>
+            </nav>
         <% } %>
-    </nav>
+
+        <nav class='tags'>
+            <h1>Tags (<%- ctx.post.tags.length %>)</h1>
+            <% if (ctx.post.tags.length) { %>
+                <ul class='compact-tags'><!--
+                    --><% for (let tag of ctx.post.tags) { %><!--
+                        --><li><!--
+                            --><% if (ctx.canViewTags) { %><!--
+                            --><a href='<%- ctx.formatClientLink('tag', tag.names[0]) %>' class='<%= ctx.makeCssName(tag.category, 'tag') %>'><!--
+                                --><i class='fa fa-tag'></i><!--
+                            --><% } %><!--
+                            --><% if (ctx.canViewTags) { %><!--
+                                --></a><!--
+                            --><% } %><!--
+                            --><% if (ctx.canListPosts) { %><!--
+                                --><a href='<%- ctx.formatClientLink('posts', {query: ctx.escapeTagName(tag.names[0])}) %>' class='<%= ctx.makeCssName(tag.category, 'tag') %>'><!--
+                            --><% } %><!--
+                                --><%- ctx.getPrettyName(tag.names[0]) %><!--
+                            --><% if (ctx.canListPosts) { %><!--
+                                --></a><!--
+                            --><% } %>&#32;<!--
+                            --><span class='tag-usages' data-pseudo-content='<%- tag.postCount %>'></span><!--
+                        --></li><!--
+                    --><% } %><!--
+                --></ul>
+            <% } else { %>
+                <p>
+                    No tags yet!
+                    <% if (ctx.canEditPosts) { %>
+                        <a href='<%= ctx.getPostEditUrl(ctx.post.id, ctx.parameters) %>'>Add some.</a>
+                    <% } %>
+                </p>
+            <% } %>
+        </nav>
+    </div>
 </div>

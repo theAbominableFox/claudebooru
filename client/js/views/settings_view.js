@@ -44,7 +44,6 @@ class SettingsView extends events.EventTarget {
                     postsPerPage: this._find("posts-per-page").value,
                     tagUnderscoresAsSpaces: this._find("underscores-as-spaces")
                         .checked,
-                    darkTheme: this._find("dark-theme").checked,
                     postFlow: this._find("post-flow").checked,
                 },
             })

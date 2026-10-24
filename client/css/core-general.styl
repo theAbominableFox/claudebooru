@@ -14,6 +14,9 @@ $inactive-tab-text-color-darktheme = $inactive-link-color-darktheme
     src: local('Open Sans'), local('OpenSans'), url(../fonts/open_sans.woff2) format('woff2');
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 
+:root
+    --accent-color: $default-main-color
+
 /* make <body> cover entire viewport */
 html
     height: 100%
@@ -154,6 +157,7 @@ nav
                 display: inline-block
             li a
                 padding: 0 1.2em
+                border-radius: $ui-border-radius
             li:not(.active) a
                 color: $inactive-tab-text-color
             li:hover:not(.active) a
@@ -207,13 +211,139 @@ nav
                 &.opened
                     li
                         display: block
-        ul li[data-name=account],
-        ul li[data-name=register],
-        ul li[data-name=login],
-        ul li[data-name=logout],
-        ul li[data-name=settings],
-        ul li[data-name=help]
+        ul li.menu,
+        ul li[data-name=settings]
             float: none
+        li.theme-menu
+            .menu-toggle .fa-adjust
+                margin-right: 0
+            .menu-items.theme-options
+                width: 13em
+                padding: 0.6em 0.8em
+                line-height: normal
+                h3
+                    margin: 0 0 0.4em 0
+                    font-size: 0.85em
+                    font-weight: normal
+                    color: $inactive-tab-text-color
+                    &:not(:first-child)
+                        margin-top: 0.9em
+            .theme-modes
+                display: flex
+                gap: 0.3em
+            .theme-mode
+                flex: 1
+                padding: 0.3em 0.5em
+                border: 2px solid transparent
+                background: $active-tab-background-color
+                color: $active-tab-text-color
+                transition: background 0.2s linear, border-color 0.2s linear
+                i
+                    margin-right: 0.4em
+                &:hover
+                    background: $main-color-hover-background
+                &.selected
+                    border-color: $main-color
+            .accent-colors
+                display: grid
+                grid-template-columns: repeat(5, 1fr)
+                gap: 0.4em
+            .accent-color, .accent-custom
+                aspect-ratio: 1
+                padding: 0
+                border: 0
+                border-radius: $ui-border-radius
+                cursor: pointer
+                &:hover
+                    filter: brightness(1.1)
+                &.selected
+                    outline: 2px solid $active-tab-text-color
+                    outline-offset: 2px
+            .accent-custom
+                position: relative
+                display: flex
+                align-items: center
+                justify-content: center
+                background: conic-gradient(#e05555, #ee8a2e, #e8d43a, #3db46d, #24aadd, #8e5bd9, #e0569b, #e05555)
+                i
+                    margin: 0
+                    color: white
+                    text-shadow: 0 0 2px rgba(0, 0, 0, 0.6)
+                input
+                    position: absolute
+                    inset: 0
+                    width: 100%
+                    height: 100%
+                    padding: 0
+                    border: 0
+                    opacity: 0
+                    cursor: pointer
+        // same hover as the post navigation buttons
+        li a, .menu-toggle
+            transition: background 0.2s linear, box-shadow 0.2s linear
+        li:not(.active) a:hover, .menu-toggle:not(.active):hover
+            background: $main-color-hover-background
+        li.menu
+            position: relative
+            .menu-toggle
+                padding: 0 1.5em
+                line-height: 2.3em
+                font-family: inherit
+                font-size: inherit
+                border: none
+                background: none
+                cursor: pointer
+                border-radius: $ui-border-radius
+                color: $inactive-tab-text-color
+                &:hover, &.active
+                    color: $active-tab-text-color
+                &.active
+                    background: $active-tab-background-color
+                &:focus
+                    background: $focused-tab-background-color
+                    outline: 0
+                .thumbnail
+                    float: none
+                    vertical-align: middle
+                    margin: 0 0.6em 0 -0.6em
+                i
+                    margin-right: 0.6em
+                .fa-caret-down
+                    margin: 0 0 0 0.6em
+            .menu-items
+                display: none
+                position: absolute
+                top: 100%
+                right: 0
+                z-index: 100
+                min-width: 10em
+                padding: 0.2em
+                border-radius: $ui-border-radius
+                text-align: left
+                background: $top-navigation-color
+                box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.15)
+                li
+                    display: block
+                    float: none
+                    a
+                        display: block
+                    .thumbnail
+                        display: none
+            &.opened
+                .menu-toggle
+                    background: $active-tab-background-color
+                .menu-items
+                    display: block
+            // the mobile menu already lists items vertically, so show
+            // them in place instead of behind the toggle
+            @media (max-width: 1000px)
+                .menu-toggle
+                    display: none
+                .menu-items
+                    display: block
+                    position: static
+                    box-shadow: none
+                    background: none
         .access-key
             text-decoration: underline
         .thumbnail
@@ -243,6 +373,39 @@ nav
         ul
             #mobile-navigation-toggle
                 color: $text-color-darktheme
+        li:not(.active) a:hover, .menu-toggle:not(.active):hover
+            background: unset
+            box-shadow: inset 0 0 0 0.15em $main-color, inset 0 0 0.8em $main-color-glow
+        li.menu
+            .menu-toggle
+                color: $inactive-tab-text-color-darktheme
+                &:hover, &.active
+                    color: $active-tab-text-color-darktheme
+                &.active
+                    background: $active-tab-background-color-darktheme
+                &:focus
+                    background: $focused-tab-background-color-darktheme
+            &.opened .menu-toggle
+                background: $active-tab-background-color-darktheme
+            .menu-items
+                background: $top-navigation-color-darktheme
+                box-shadow: 0 0.2em 0.6em rgba(0, 0, 0, 0.5)
+            @media (max-width: 1000px)
+                .menu-items
+                    background: none
+                    box-shadow: none
+        li.theme-menu
+            .theme-options h3
+                color: $inactive-tab-text-color-darktheme
+            .theme-mode
+                background: $active-tab-background-color-darktheme
+                color: $active-tab-text-color-darktheme
+                &:hover
+                    background: $active-tab-background-color-darktheme
+                    box-shadow: inset 0 0 0.8em $main-color-glow
+            .accent-color, .accent-custom
+                &.selected
+                    outline-color: $active-tab-text-color-darktheme
 
 a .access-key
     text-decoration: underline
@@ -252,6 +415,7 @@ a .access-key
     text-align: left
     .message
         box-sizing: border-box
+        border-radius: $ui-border-radius
         width: 100%
         max-width: 40em
         margin: 0 0 1em 0
