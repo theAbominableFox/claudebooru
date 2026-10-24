@@ -1,64 +1,13 @@
 <div class='readonly-sidebar'>
     <article class='details'>
-        <section class='download'>
-            <a rel='external' href='<%- ctx.post.contentUrl %>'>
-                <i class='fa fa-download'></i><!--
-            --><%= ctx.makeFileSize(ctx.post.fileSize) %> <!--
-                --><%- {
-                    'image/gif': 'GIF',
-                    'image/jpeg': 'JPEG',
-                    'image/png': 'PNG',
-                    'image/webp': 'WEBP',
-                    'image/bmp': 'BMP',
-                    'image/avif': 'AVIF',
-                    'image/heif': 'HEIF',
-                    'image/heic': 'HEIC',
-                    'video/webm': 'WEBM',
-                    'video/mp4': 'MPEG-4',
-                    'video/quicktime': 'MOV',
-                    'application/x-shockwave-flash': 'SWF',
-                }[ctx.post.mimeType] %><!--
-            --></a>
-            (<%- ctx.post.canvasWidth %>x<%- ctx.post.canvasHeight %>)
-            <% if (ctx.post.flags.length) { %><!--
-                --><% if (ctx.post.flags.includes('loop')) { %><i class='fa fa-repeat'></i><% } %><!--
-                --><% if (ctx.post.flags.includes('sound')) { %><i class='fa fa-volume-up'></i><% } %>
-            <% } %>
-        </section>
-
-        <section class='upload-info'>
-            <%= ctx.makeUserLink(ctx.post.user) %>,
-            <%= ctx.makeRelativeTime(ctx.post.creationTime) %>
-        </section>
-
-        <% if (ctx.enableSafety) { %>
-            <section class='safety'>
-                <i class='fa fa-circle safety-<%- ctx.post.safety %>'></i><!--
-                --><%- ctx.post.safety[0].toUpperCase() + ctx.post.safety.slice(1) %>
-            </section>
-        <% } %>
-
         <section class='zoom'>
-            <a href class='fit-original'>Original zoom</a> &middot;
-            <a href class='fit-width'>fit width</a> &middot;
-            <a href class='fit-height'>height</a> &middot;
-            <a href class='fit-both'>both</a>
-        </section>
-
-        <% if (ctx.post.source) { %>
-            <section class='source'>
-                Source: <% for (let i = 0; i < ctx.post.sourceSplit.length; i++) { %>
-                    <% if (i != 0) { %>&middot;<% } %>
-                    <a href='<%- ctx.post.sourceSplit[i] %>' title='<%- ctx.post.sourceSplit[i] %>'><%- ctx.extractRootDomain(ctx.post.sourceSplit[i]) %></a>
-                <% } %>
-            </section>
-        <% } %>
-
-        <section class='search'>
-            Search on
-            <a href='http://iqdb.org/?url=<%- encodeURIComponent(ctx.post.fullContentUrl) %>'>IQDB</a> &middot;
-            <a href='https://danbooru.donmai.us/posts?tags=md5:<%- ctx.post.checksumMD5 %>'>Danbooru</a> &middot;
-            <a href='https://lens.google.com/uploadbyurl?url=<%- encodeURIComponent(ctx.post.fullContentUrl) %>'>Google Images</a>
+            <button type='button' class='zoom-toggle' title='Zoom' aria-label='Zoom' aria-haspopup='true' aria-expanded='false'><i class='fa fa-expand'></i></button>
+            <ul class='zoom-options'>
+                <li><a href class='fit-original'>Original size</a></li>
+                <li><a href class='fit-width'>Fit width</a></li>
+                <li><a href class='fit-height'>Fit height</a></li>
+                <li><a href class='fit-both'>Fit both</a></li>
+            </ul>
         </section>
 
         <section class='social'>
@@ -69,6 +18,62 @@
     </article>
 
     <div class='taxonomy'>
+        <article class='info'>
+            <section class='download'>
+                <a rel='external' href='<%- ctx.post.contentUrl %>'>
+                    <i class='fa fa-download'></i><!--
+                --><%= ctx.makeFileSize(ctx.post.fileSize) %> <!--
+                    --><%- {
+                        'image/gif': 'GIF',
+                        'image/jpeg': 'JPEG',
+                        'image/png': 'PNG',
+                        'image/webp': 'WEBP',
+                        'image/bmp': 'BMP',
+                        'image/avif': 'AVIF',
+                        'image/heif': 'HEIF',
+                        'image/heic': 'HEIC',
+                        'video/webm': 'WEBM',
+                        'video/mp4': 'MPEG-4',
+                        'video/quicktime': 'MOV',
+                        'application/x-shockwave-flash': 'SWF',
+                    }[ctx.post.mimeType] %><!--
+                --></a>
+                (<%- ctx.post.canvasWidth %>x<%- ctx.post.canvasHeight %>)
+                <% if (ctx.post.flags.length) { %><!--
+                    --><% if (ctx.post.flags.includes('loop')) { %><i class='fa fa-repeat'></i><% } %><!--
+                    --><% if (ctx.post.flags.includes('sound')) { %><i class='fa fa-volume-up'></i><% } %>
+                <% } %>
+            </section>
+
+            <section class='upload-info'>
+                <%= ctx.makeUserLink(ctx.post.user) %>,
+                <%= ctx.makeRelativeTime(ctx.post.creationTime) %>
+            </section>
+
+            <% if (ctx.enableSafety) { %>
+                <section class='safety'>
+                    <i class='fa fa-circle safety-<%- ctx.post.safety %>'></i><!--
+                    --><%- ctx.post.safety[0].toUpperCase() + ctx.post.safety.slice(1) %>
+                </section>
+            <% } %>
+
+            <% if (ctx.post.source) { %>
+                <section class='source'>
+                    Source: <% for (let i = 0; i < ctx.post.sourceSplit.length; i++) { %>
+                        <% if (i != 0) { %>&middot;<% } %>
+                        <a href='<%- ctx.post.sourceSplit[i] %>' title='<%- ctx.post.sourceSplit[i] %>'><%- ctx.extractRootDomain(ctx.post.sourceSplit[i]) %></a>
+                    <% } %>
+                </section>
+            <% } %>
+
+            <section class='search'>
+                Search on
+                <a href='http://iqdb.org/?url=<%- encodeURIComponent(ctx.post.fullContentUrl) %>'>IQDB</a> &middot;
+                <a href='https://danbooru.donmai.us/posts?tags=md5:<%- ctx.post.checksumMD5 %>'>Danbooru</a> &middot;
+                <a href='https://lens.google.com/uploadbyurl?url=<%- encodeURIComponent(ctx.post.fullContentUrl) %>'>Google Images</a>
+            </section>
+        </article>
+
         <% if (ctx.post.relations.length) { %>
             <nav class='relations'>
                 <h1>Relations (<%- ctx.post.relations.length %>)</h1>

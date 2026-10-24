@@ -92,9 +92,24 @@ function _makeTopNavigation() {
     ret.add("logout", new TopNavigationItem("O", "Logout", "logout"));
     ret.add("help", new TopNavigationItem("E", "Help", "help"));
     ret.add("settings", new TopNavigationItem(null, "Settings", "settings"));
-    ret.get("home").icon = "home";
-    ret.get("posts").icon = "th";
-    ret.get("upload").icon = "upload";
+    const icons = {
+        home: "home",
+        posts: "th",
+        upload: "upload",
+        comments: "comments",
+        tags: "tags",
+        pools: "folder",
+        users: "users",
+        account: "user-circle",
+        register: "user-plus",
+        login: "sign-in",
+        logout: "sign-out",
+        help: "question-circle",
+        settings: "cog",
+    };
+    for (let key of Object.keys(icons)) {
+        ret.get(key).icon = icons[key];
+    }
     return ret;
 }
 

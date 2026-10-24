@@ -37,6 +37,7 @@ class PostReadonlySidebarControl extends events.EventTarget {
         this._installFav();
         this._installScore();
         this._installFitButtons();
+        this._installZoomMenu();
         this._syncFitButton();
     }
 
@@ -62,6 +63,14 @@ class PostReadonlySidebarControl extends events.EventTarget {
 
     get _remFavButtonNode() {
         return this._hostNode.querySelector(".remove-favorite");
+    }
+
+    get _zoomNode() {
+        return this._hostNode.querySelector(".zoom");
+    }
+
+    get _zoomToggleNode() {
+        return this._hostNode.querySelector(".zoom-toggle");
     }
 
     get _fitBothButtonNode() {
@@ -96,6 +105,36 @@ class PostReadonlySidebarControl extends events.EventTarget {
         this._fitHeightButtonNode.addEventListener(
             "click",
             this._eventZoomProxy(() => this._postContentControl.fitHeight())
+        );
+    }
+
+    _installZoomMenu() {
+        this._zoomToggleNode.addEventListener("click", (e) =>
+            this._toggleZoomMenu()
+        );
+        const onDocumentClick = (e) => {
+            if (!this._zoomNode.contains(e.target)) {
+                this._toggleZoomMenu(false);
+            }
+        };
+        const onKeyDown = (e) => {
+            if (e.key === "Escape") {
+                this._toggleZoomMenu(false);
+            }
+        };
+        document.addEventListener("click", onDocumentClick);
+        document.addEventListener("keydown", onKeyDown);
+        views.monitorNodeRemoval(this._hostNode, () => {
+            document.removeEventListener("click", onDocumentClick);
+            document.removeEventListener("keydown", onKeyDown);
+        });
+    }
+
+    _toggleZoomMenu(open) {
+        this._zoomNode.classList.toggle("opened", open);
+        this._zoomToggleNode.setAttribute(
+            "aria-expanded",
+            this._zoomNode.classList.contains("opened")
         );
     }
 
@@ -148,6 +187,7 @@ class PostReadonlySidebarControl extends events.EventTarget {
             e.target.blur();
             func();
             this._syncFitButton();
+            this._toggleZoomMenu(false);
             this.dispatchEvent(
                 new CustomEvent("fitModeChange", {
                     detail: {

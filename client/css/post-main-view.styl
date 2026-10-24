@@ -1,4 +1,5 @@
 @import colors
+@import mixins
 
 // Post on top, then buttons + details in one row, then relations/tags
 // on the left with comments on the right. In edit mode the buttons and the
@@ -65,10 +66,15 @@
         grid-area: side
         min-width: 0
 
+    // the comments and the post info (.info) start on the same line, far
+    // enough below the buttons to stay out of view when the post fills
+    // the viewport (more than the 1.5em page gutter)
     >.post-comments
         grid-area: comments
         min-width: 0
-        margin-top: 1em
+        margin-top: 2em
+        >h2:first-child
+            margin-top: 0
 
 .post-view.edit-mode
     grid-template-rows: auto auto 1fr
@@ -82,8 +88,22 @@
         margin-bottom: 1em
 
 .darktheme .post-view
-    .readonly-sidebar .details section
+    .readonly-sidebar .details section, .readonly-sidebar .info section
         background: $focused-tab-background-color-darktheme
+    .readonly-sidebar .details .zoom
+        .zoom-toggle
+            color: $text-color-darktheme
+        .zoom-options
+            background: $top-navigation-color-darktheme
+            box-shadow: 0 -0.2em 0.6em rgba(0, 0, 0, 0.5)
+            a
+                color: $inactive-link-color-darktheme
+                &:hover
+                    background: $active-tab-background-color-darktheme
+                    color: $text-color-darktheme
+                &.active
+                    background: $active-tab-background-color-darktheme
+                    color: $main-color
     nav.buttons
         article
             background: $active-tab-background-color-darktheme
@@ -102,14 +122,13 @@
 
 
 .post-view .readonly-sidebar
-    .details
-        display: flex
-        flex-wrap: wrap
-        align-items: center
-        gap: 0.5em
+    // shared by the row beside the buttons (zoom, score) and the post info
+    // above relations/tags
+    .details, .info
+        gap: 0.3em
 
         section
-            padding: 0.3em 0.8em
+            padding: 0.2em 0.5em
             border-radius: $ui-border-radius
             background: $focused-tab-background-color
 
@@ -118,6 +137,11 @@
             display: inline-block
             width: 1em
             text-align: center
+
+    .info
+        display: flex
+        flex-direction: column
+        margin-top: 2em
 
         .safety-safe
             color: $safety-safe
@@ -132,11 +156,58 @@
                 height: 1em
                 margin: -0.1em 0.6em 0 0
 
+    .details
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+
+        // icon button opening a list of fit modes
         .zoom
-            a
-                display: inline-block
-            .active
-                text-decoration: underline
+            position: relative
+            padding: 0
+            // match the height of the text tiles beside it
+            align-self: stretch
+            display: flex
+            .zoom-toggle
+                padding: 0.2em 0.5em
+                border: 0
+                border-radius: $ui-border-radius
+                background: none
+                color: $text-color
+                font-size: 110%
+                accent-text-glow()
+                i
+                    margin: 0
+            // opens upwards: the details row sits at the bottom of the
+            // viewport in the fit-both/fit-height modes
+            .zoom-options
+                display: none
+                position: absolute
+                bottom: calc(100% + 0.3em)
+                left: 0
+                z-index: 20
+                margin: 0
+                padding: 0.2em
+                list-style-type: none
+                white-space: nowrap
+                border-radius: $ui-border-radius
+                background: $top-navigation-color
+                box-shadow: 0 -0.2em 0.6em rgba(0, 0, 0, 0.15)
+                li
+                    margin: 0
+                a
+                    display: block
+                    padding: 0.2em 1em
+                    border-radius: $ui-border-radius
+                    color: $inactive-link-color
+                    &:hover
+                        background: $main-color-hover-background
+                        color: $text-color
+                    &.active
+                        background: $active-tab-background-color
+                        color: $main-color
+            &.opened .zoom-options
+                display: block
 
         .social
             display: flex

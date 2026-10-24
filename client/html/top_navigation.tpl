@@ -4,7 +4,7 @@
     --><li data-name='<%- item.key %>'><!--
         --><a href='<%- item.url %>' accesskey='<%- item.accessKey %>'><!--
             --><% if (item.imageUrl) { print(ctx.makeThumbnail(item.imageUrl)); } %><!--
-            --><% if (item.icon) { %><i class='fa fa-<%- item.icon %> nav-icon'></i><% } %><!--
+            --><% if (item.icon) { %><i class='fa fa-fw fa-<%- item.icon %> nav-icon'></i><% } %><!--
             --><span class='text'><%= ctx.makeAccessKey(item.title, item.accessKey) %></span><!--
         --></a><!--
     --></li><!--
