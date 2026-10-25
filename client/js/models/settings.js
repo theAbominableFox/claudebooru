@@ -16,6 +16,7 @@ const defaultSettings = {
     tagSuggestions: true,
     autoplayVideos: false,
     postsPerPage: 42,
+    slideshowDuration: 5,
     tagUnderscoresAsSpaces: false,
     darkTheme: true,
     accentColor: null,

@@ -10,6 +10,8 @@
             %><input data-safety=unsafe type='button' class='mousetrap safety safety-unsafe <%- ctx.settings.listPosts.unsafe ? '' : 'disabled' %>'/><%
         %><% } %><%
         %><wbr/><%
+        %><button type='button' class='mousetrap slideshow-button' title='Slideshow of the posts matching the search'><i class='fa fa-play'></i>Slideshow</button><%
+        %><wbr/><%
         %><a class='mousetrap button append' href='<%- ctx.formatClientLink('help', 'search', 'posts') %>'>Syntax help</a><%
     %></form><%
     %><% if (ctx.canBulkEditTags) { %><%

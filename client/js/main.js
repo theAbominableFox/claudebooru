@@ -64,6 +64,7 @@ Promise.resolve()
             );
             controllers.push(require("./controllers/post_main_controller.js"));
             controllers.push(require("./controllers/post_list_controller.js"));
+            controllers.push(require("./controllers/slideshow_controller.js"));
             controllers.push(
                 require("./controllers/post_upload_controller.js")
             );

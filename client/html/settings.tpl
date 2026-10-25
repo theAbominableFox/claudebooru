@@ -23,6 +23,18 @@
             </li>
 
             <li>
+                <%= ctx.makeNumericInput({
+                    text: 'Slideshow image duration (seconds)',
+                    name: 'slideshow-duration',
+                    value: ctx.browsingSettings.slideshowDuration,
+                    min: 1,
+                    max: 3600,
+                    step: 1,
+                }) %>
+                <p class='hint'>How long each image stays on screen in the slideshow. Videos play until they end.</p>
+            </li>
+
+            <li>
                 <%= ctx.makeCheckbox({
                     text: 'Upscale small posts',
                     name: 'upscale-small-posts',

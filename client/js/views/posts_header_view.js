@@ -1,10 +1,12 @@
 "use strict";
 
 const events = require("../events.js");
+const router = require("../router.js");
 const settings = require("../models/settings.js");
 const keyboard = require("../util/keyboard.js");
 const misc = require("../util/misc.js");
 const search = require("../util/search.js");
+const uri = require("../util/uri.js");
 const views = require("../util/views.js");
 const TagList = require("../models/tag_list.js");
 const TagAutoCompleteControl = require("../controls/tag_auto_complete_control.js");
@@ -201,6 +203,9 @@ class PostsHeaderView extends events.EventTarget {
         this._formNode.addEventListener("submit", (e) =>
             this._evtFormSubmit(e)
         );
+        this._slideshowButtonNode.addEventListener("click", (e) =>
+            this._evtSlideshowClick(e)
+        );
 
         this._bulkEditors = [];
         if (this._bulkEditTagsNode) {
@@ -255,6 +260,10 @@ class PostsHeaderView extends events.EventTarget {
 
     get _queryInputNode() {
         return this._hostNode.querySelector("form [name=search-text]");
+    }
+
+    get _slideshowButtonNode() {
+        return this._hostNode.querySelector(".slideshow-button");
     }
 
     get _bulkEditTagsNode() {
@@ -313,6 +322,17 @@ class PostsHeaderView extends events.EventTarget {
     _evtFormSubmit(e) {
         e.preventDefault();
         this._navigate();
+    }
+
+    // uses what is in the search box now, even if it wasn't searched yet
+    _evtSlideshowClick(e) {
+        e.preventDefault();
+        this._autoCompleteControl.hide();
+        router.show(
+            uri.formatClientLink("slides", {
+                query: this._queryInputNode.value.trim(),
+            })
+        );
     }
 
     _navigate() {
