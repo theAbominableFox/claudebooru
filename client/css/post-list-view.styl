@@ -198,7 +198,12 @@
                     box-shadow: inset 0 0 0 2px $main-color, inset 0 0 1em $main-color-glow
 
 .post-list-header
-    white-space: nowrap
+    // the search and each bulk edit form wrap as whole groups, so opening
+    // one doesn't push the page wider than the window
+    display: flex
+    flex-wrap: wrap
+    align-items: flex-start
+    column-gap: 1em
     text-align: left
 
     .slideshow-button
@@ -211,13 +216,13 @@
     form
         width: auto
         margin-bottom: 0.75em
+        white-space: nowrap
         *
             vertical-align: top
         @media (max-width: 1000px)
-            display: block
+            flex: 1 1 100%
             &.bulk-edit-tags:not(.opened), &.bulk-edit-safety:not(.opened)
-                float: left
-                margin-right: 1em
+                flex: 0 0 auto
     input
         margin-bottom: 0.25em
         margin-right: 0.25em
@@ -232,6 +237,9 @@
         font-size: 0.95em
         color: $inactive-link-color
     .bulk-edit
+        // the column gap already separates the forms
+        .append.open, .hint
+            margin-left: 0
         &:not(.opened)
             .close
                 display: none
@@ -258,30 +266,14 @@
                 display: block
                 width: 100%
                 margin-bottom: 0.5em
-        .append
-            &.open,
-            &.hint
-                @media (max-width: 1000px)
-                    margin-left: 0
         .hint
             margin-right: 1em
-    .bulk-edit-safety
-        .append
-            @media (max-width: 1000px)
-                margin-left: 0
+    .bulk-edit-safety .append
+        margin-left: 0
     .bulk-edit-delete
-        &.opened
-            .start
-                @media (max-width: 1000px)
-                    margin-left: 0
         &:not(.opened)
             .start
                 display: none
-        .append.open
-            @media (max-width: 1000px)
-                margin-left: 0
-        .start
-            margin-left: 1em
     .safety
         margin-right: 0.25em
         &.safety-safe
