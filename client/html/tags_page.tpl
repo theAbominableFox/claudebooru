@@ -9,6 +9,13 @@
                         <a href='<%- ctx.formatClientLink('tags', {query: 'sort:name'}) %>'>Tag name(s)</a>
                     <% } %>
                 </th>
+                <th class='category'>
+                    <% if (ctx.parameters.query == 'sort:category') { %>
+                        <a href='<%- ctx.formatClientLink('tags', {query: '-sort:category'}) %>'>Category</a>
+                    <% } else { %>
+                        <a href='<%- ctx.formatClientLink('tags', {query: 'sort:category'}) %>'>Category</a>
+                    <% } %>
+                </th>
                 <th class='implications'>
                     <% if (ctx.parameters.query == 'sort:implication-count') { %>
                         <a href='<%- ctx.formatClientLink('tags', {query: '-sort:implication-count'}) %>'>Implications</a>
@@ -47,6 +54,9 @@
                                     <li><%= ctx.makeTagLink(name, false, false, tag) %></li>
                                 <% } %>
                             </ul>
+                        </td>
+                        <td class='category'>
+                            <a href='<%- ctx.formatClientLink('tags', {query: 'category:' + ctx.escapeSearchTerm(tag.category)}) %>' class='<%- ctx.makeCssName(tag.category, 'tag') %>'><%- tag.category %></a>
                         </td>
                         <td class='implications'>
                             <% if (tag.implications.length) { %>
