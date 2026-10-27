@@ -43,6 +43,8 @@ class SettingsView extends events.EventTarget {
                     autoplayVideos: this._find("autoplay-videos").checked,
                     postsPerPage: this._find("posts-per-page").value,
                     slideshowDuration: this._find("slideshow-duration").value,
+                    slideshowMuteVideos: this._find("slideshow-mute-videos")
+                        .checked,
                     tagUnderscoresAsSpaces: this._find("underscores-as-spaces")
                         .checked,
                     postFlow: this._find("post-flow").checked,

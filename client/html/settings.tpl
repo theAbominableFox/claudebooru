@@ -36,6 +36,14 @@
 
             <li>
                 <%= ctx.makeCheckbox({
+                    text: 'Mute videos in the slideshow',
+                    name: 'slideshow-mute-videos',
+                    checked: ctx.browsingSettings.slideshowMuteVideos,
+                }) %>
+            </li>
+
+            <li>
+                <%= ctx.makeCheckbox({
                     text: 'Upscale small posts',
                     name: 'upscale-small-posts',
                     checked: ctx.browsingSettings.upscaleSmallPosts}) %>

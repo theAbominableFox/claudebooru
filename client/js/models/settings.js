@@ -17,6 +17,7 @@ const defaultSettings = {
     autoplayVideos: false,
     postsPerPage: 42,
     slideshowDuration: 5,
+    slideshowMuteVideos: true,
     tagUnderscoresAsSpaces: false,
     darkTheme: true,
     accentColor: null,
