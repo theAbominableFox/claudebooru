@@ -32,6 +32,23 @@
                 outline-offset: -3px
                 box-shadow: 0 0 0 1px rgba(0,0,0,0.2)
 
+                // corner triangle for sketchy and unsafe posts
+                .safety-marker
+                    position: absolute
+                    top: 0
+                    left: 0
+                    width: 0
+                    height: 0
+                    border-style: solid
+                    border-width: 1.5em 1.5em 0 0
+                    border-color: transparent
+                    // keeps it visible on thumbnails of a similar color
+                    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.7))
+                    &.safety-sketchy
+                        border-top-color: $safety-sketchy
+                    &.safety-unsafe
+                        border-top-color: $safety-unsafe
+
                 .type, .stats
                     position: absolute
                     bottom: 0.5em

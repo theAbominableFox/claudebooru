@@ -7,6 +7,9 @@
                             title='@<%- post.id %> (<%- post.type %>)&#10;&#10;Tags: <%- post.tags.map(tag => '#' + tag.names[0]).join(' ') || 'none' %>'
                             href='<%= ctx.canViewPosts ? ctx.getPostUrl(post.id, ctx.parameters) : '' %>'>
                         <%= ctx.makeThumbnail(post.thumbnailUrl) %>
+                        <% if (post.safety === 'sketchy' || post.safety === 'unsafe') { %>
+                            <span class='safety-marker safety-<%- post.safety %>' title='<%- post.safety %>'></span>
+                        <% } %>
                         <span class='type' data-type='<%- post.type %>'>
                             <% if (post.type == 'video' || post.type == 'flash' || post.type == 'animation') { %>
                                 <span class='icon'><i class='fa fa-film'></i></span>
