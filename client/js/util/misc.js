@@ -194,6 +194,14 @@ function dataURItoBlob(dataURI) {
     return new Blob([data], { type: mimeString });
 }
 
+// "default" (the color of the categories created by the migrations) and
+// empty colors follow the theme
+function makeCategoryColor(color) {
+    return !color || color === "default"
+        ? "var(--default-category-color)"
+        : color;
+}
+
 function getPrettyName(tag) {
     if (settings.get().tagUnderscoresAsSpaces) {
         return tag.replace(/_/g, " ");
@@ -229,6 +237,7 @@ function matchingNames(text, names) {
 }
 
 module.exports = {
+    makeCategoryColor: makeCategoryColor,
     range: range,
     formatRelativeTime: formatRelativeTime,
     formatFileSize: formatFileSize,

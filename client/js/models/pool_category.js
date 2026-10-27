@@ -8,7 +8,7 @@ class PoolCategory extends events.EventTarget {
     constructor() {
         super();
         this._name = "";
-        this._color = "#000000";
+        this._color = "default";
         this._poolCount = 0;
         this._isDefault = false;
         this._origName = null;

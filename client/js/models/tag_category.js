@@ -8,7 +8,7 @@ class TagCategory extends events.EventTarget {
     constructor() {
         super();
         this._name = "";
-        this._color = "#000000";
+        this._color = "default";
         this._order = 1;
         this._tagCount = 0;
         this._isDefault = false;

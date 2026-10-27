@@ -142,6 +142,7 @@ function makeEmailInput(options) {
 }
 
 function makeColorInput(options) {
+    const color = misc.makeCategoryColor(options.value);
     const textInput = makeElement("input", {
         type: "text",
         value: options.value || "",
@@ -150,13 +151,13 @@ function makeColorInput(options) {
     });
     const backgroundPreviewNode = makeElement("div", {
         class: "preview background-preview",
-        style: `border-color: ${options.value};
-                background-color: ${options.value}`,
+        style: `border-color: ${color};
+                background-color: ${color}`,
     });
     const textPreviewNode = makeElement("div", {
         class: "preview text-preview",
-        style: `border-color: ${options.value};
-                color: ${options.value}`,
+        style: `border-color: ${color};
+                color: ${color}`,
     });
     return makeElement(
         "label",
@@ -558,10 +559,11 @@ document.addEventListener("input", (e) => {
     if (e.target.classList.contains("color")) {
         let bkNode = e.target.parentNode.querySelector(".background-preview");
         let textNode = e.target.parentNode.querySelector(".text-preview");
-        bkNode.style.backgroundColor = e.target.value;
-        bkNode.style.borderColor = e.target.value;
-        textNode.style.color = e.target.value;
-        textNode.style.borderColor = e.target.value;
+        const color = misc.makeCategoryColor(e.target.value);
+        bkNode.style.backgroundColor = color;
+        bkNode.style.borderColor = color;
+        textNode.style.color = color;
+        textNode.style.borderColor = color;
     }
 });
 

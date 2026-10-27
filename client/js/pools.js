@@ -15,7 +15,9 @@ function refreshCategoryColorMap() {
         for (let category of response.results) {
             const ruleName = misc.makeCssName(category.name, "pool");
             _stylesheet.sheet.insertRule(
-                `.${ruleName} { color: ${category.color} }`,
+                `.${ruleName} { color: ${misc.makeCategoryColor(
+                    category.color
+                )} }`,
                 _stylesheet.sheet.cssRules.length
             );
         }
